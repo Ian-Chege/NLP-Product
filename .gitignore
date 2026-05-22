@@ -1,0 +1,7 @@
+node_modules/
+.agents/
+.claude/
+.hallmark/
+dist/
+build/
+jude-companion/backend/.env
