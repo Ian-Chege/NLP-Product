@@ -86,11 +86,3 @@ python week-3/code/week3_hmm_ner.py
 
 The first run downloads the MACULA Greek NT (~19 MB) and caches it locally. Subsequent runs use the cache.
 
-**Output sections to screenshot:**
-| Screenshot | Section to capture |
-|---|---|
-| `fig1_hmm_code.png` | "Fig 1 – SEQUENCE LABELING CODE" block |
-| `fig2_hmm_output.png` | "Fig 2 – HIDDEN MARKOV MODEL OUTPUT" table |
-| `fig3_ner.png` | "Fig 3 – NAMED ENTITY RECOGNITION" results |
-| `fig4_labeling.png` | "Fig 4 – SENTENCE LABELING RESULTS" |
-| `fig5_dataset.png` | "Fig 5 – DATASET" section at the top |
