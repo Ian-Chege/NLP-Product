@@ -27,6 +27,9 @@ Fig 4 demonstrates simple language prediction using bigram frequencies. Given a 
 
 Fig 5 provides a complete structural breakdown of the text, total tokens, unique words, bigram and trigram counts, and a grammatical breakdown by POS category.
 
+### Task 3 from notes:
+![pos tagging](image.png)
+
 ---
 
 ## Student Reflection
@@ -39,5 +42,5 @@ This week introduced N-gram models and Part-of-Speech tagging using Python and N
 
 ```bash
 pip install nltk
-python week-2/code/week2_ngrams_pos.py
+python3 week-2/code/week2_ngrams_pos.py
 ```

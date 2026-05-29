@@ -168,3 +168,39 @@ print(f"\n  Grammatical breakdown:")
 for label, count in pos_counts.most_common():
     print(f"    {label:<15} : {count}")
 
+
+# =============================================================================
+# TASK 3 – POS TAGGING ON DIFFERENT TEXT TYPES
+# =============================================================================
+# POS tagging behaves differently depending on the type of text.
+# Here we compare three domains: news, social media, and student project titles.
+# =============================================================================
+
+text_samples = {
+    "News Article": (
+        "The government announced a new policy on renewable energy funding today."
+    ),
+    "Social Media": (
+        "omg just saw the new AI tool everyone's talking about, it's literally insane lol"
+    ),
+    "Student Project Title": (
+        "AI-Powered Bible Study Companion: Scripture Analysis Using NLP and Deep Learning"
+    ),
+}
+
+print("\n" + "=" * 60)
+print("TASK 3 – POS TAGGING ON DIFFERENT TEXT TYPES")
+print("=" * 60)
+
+for domain, text in text_samples.items():
+    tokens_d = word_tokenize(text)
+    tagged_d = pos_tag(tokens_d)
+
+    print(f"\n  [{domain}]")
+    print(f"  Text: \"{text}\"")
+    print(f"  {'Word':<22} {'Tag':<8} {'Label'}")
+    print("  " + "-" * 42)
+    for word, tag in tagged_d:
+        label = READABLE.get(tag, "Other")
+        print(f"    {word:<20} {tag:<8} {label}")
+

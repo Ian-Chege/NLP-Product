@@ -27,6 +27,10 @@ Fig 5 shows the token list after filtering out common English words (*the*, *and
 
 Fig 6 shows an interaction with Siri, an NLP application that uses speech recognition and intent detection to understand and respond to natural language in real time.
 
+### Task 2 from notes:
+
+![Tokenizing sentences](image.png)
+
 ---
 
 ## Student Reflection
@@ -39,5 +43,5 @@ This week introduced core NLP concepts, tokenization and stopword removal, using
 
 ```bash
 pip install nltk
-python week-1/code/week1_nlp_basics.py
+python3 week-1/code/week1_nlp_basics.py
 ```

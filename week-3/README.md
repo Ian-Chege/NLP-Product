@@ -46,6 +46,27 @@ Fig 5 shows the datasets used. We went through two iterations before settling on
 
 ---
 
+## Task 4 from notes: Real-World Applications of HMMs
+
+HMMs are used in many AI systems that process sequences over time. Below are three key application areas:
+
+### Speech Recognition
+HMMs model the sequence of sounds (phonemes) in spoken words. Each phoneme is a hidden state that produces an audio signal as its observable output. Systems like Google Voice and Apple Dictation originally used HMMs to convert speech to text by finding the most likely word sequence given the audio input. Modern systems have moved to deep learning, but HMMs laid the foundation.
+
+### Chatbots
+Early chatbots used HMMs to model conversation flow. Each dialogue state (e.g. greeting, question, answer, farewell) is a hidden state, and the user's words are the observable output. The HMM predicts which state the conversation is in and what response is appropriate next. This is the basis of intent detection in rule-based chatbots.
+
+### AI Assistants
+AI assistants like Siri and Alexa combine HMMs with other models for two tasks: speech recognition (converting voice to text) and natural language understanding (identifying intent from text). HMMs handle the temporal structure of speech, where the same word sounds slightly different each time it is spoken.
+
+| Application | Hidden States | Observable Output |
+|---|---|---|
+| Speech recognition | Phonemes / words | Audio signal |
+| Chatbots | Dialogue states | User utterances |
+| AI assistants | Spoken words | Audio waveform |
+
+---
+
 ## Bonus section to show Improved NER: spaCy vs NLTK
 
 NLTK's `ne_chunk` was trained on news text, which caused *Jude* and *Jesus Christ* to be labelled as GPE (place), and *Lord Jesus Christ* as ORGANIZATION. To demonstrate a better approach, we ran the same passage through **spaCy's `en_core_web_sm`**, a neural NER model trained on the OntoNotes 5 corpus (~1 million words, diverse genres).
@@ -81,7 +102,7 @@ This week introduced Hidden Markov Models and sequence labeling. NLTK's HMM tagg
 
 ```bash
 pip install nltk
-python week-3/code/week3_hmm_ner.py
+python3 week-3/code/week3_hmm_ner.py
 ```
 
 The first run downloads the MACULA Greek NT (~19 MB) and caches it locally. Subsequent runs use the cache.

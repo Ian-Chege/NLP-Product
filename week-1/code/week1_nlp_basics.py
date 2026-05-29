@@ -92,3 +92,28 @@ print("These filtered tokens are the meaningful words in the verse.")
 print("They are what our NLP pipeline uses for keyword extraction,")
 print("frequency analysis, and AI-powered study generation.")
 print("=" * 60)
+
+
+# =============================================================================
+# TASK 2 – TOKENIZE 5 SENTENCES
+# =============================================================================
+# To show that tokenization works across different types of text, we apply
+# word_tokenize() to five sentences from different domains.
+# =============================================================================
+
+five_sentences = [
+    "Jude, the servant of Jesus Christ, contend for the faith.",          # Biblical
+    "Scientists have discovered a new species of deep-sea fish.",          # News
+    "Just dropped the new track, can't believe how hard it goes!!",        # Social media
+    "AI-Powered Bible Study Companion Using NLP and Deep Learning.",       # Student project title
+    "Natural language processing enables computers to understand text.",   # Technical
+]
+
+print("\n" + "=" * 60)
+print("TASK 2 – TOKENIZATION OF 5 SENTENCES")
+print("=" * 60)
+
+for i, sentence in enumerate(five_sentences, 1):
+    tokens_i = word_tokenize(sentence)
+    print(f"\n  Sentence {i}: {sentence}")
+    print(f"  Tokens ({len(tokens_i)}): {tokens_i}")
