@@ -6,7 +6,7 @@
 
 ## Project: AI Bible Study Companion
 
-A web application that applies NLP techniques to the Book of Jude (KJV). It performs tokenization, stopword removal, POS tagging, keyword extraction, and word frequency analysis — and uses GPT-4o-mini to generate AI-powered study notes.
+A web application that applies NLP techniques to the Book of Jude (KJV). It performs tokenization, stopword removal, POS tagging, keyword extraction, and word frequency analysis, and uses GPT-4o-mini to generate AI-powered study notes.
 
 ![AI Bible Study Companion](app-screenshot.png)
 
@@ -43,9 +43,9 @@ nlp-product/
 ```
 
 Each `week-N/` folder contains:
-- `code/` — standalone Python script demonstrating that week's concepts
-- `screenshots/` — evidence figures required by the assignment
-- `README.md` — write-up, figure captions, and student reflection
+- `code/`, standalone Python script demonstrating that week's concepts
+- `screenshots/`, evidence figures required by the assignment
+- `README.md`, write-up, figure captions, and student reflection
 
 ---
 

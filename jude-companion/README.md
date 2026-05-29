@@ -1,4 +1,4 @@
-# Jude Companion — AI Bible Study App
+# Jude Companion, AI Bible Study App
 
 **BIT4133 Natural Language Processing**
 
@@ -84,7 +84,7 @@ The Vite dev server proxies all `/api/*` requests to the FastAPI backend at `htt
 | GET | `/verses` | All 25 verses `[{verse_number, text}]` |
 | GET | `/verse/{n}` | Single verse |
 | GET | `/analyze/{n}` | Full NLP analysis for verse n |
-| GET | `/frequency?verse={n}` | Word frequency — verse or whole book |
+| GET | `/frequency?verse={n}` | Word frequency, verse or whole book |
 | POST | `/study` | AI study content for a verse |
 
 ### POST `/study` request body
@@ -105,7 +105,7 @@ The Vite dev server proxies all `/api/*` requests to the FastAPI backend at `htt
 
 ---
 
-## NLP Pipeline — `JudePipeline`
+## NLP Pipeline: `JudePipeline`
 
 | Method | Description |
 |--------|-------------|
