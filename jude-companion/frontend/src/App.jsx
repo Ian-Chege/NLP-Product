@@ -4,12 +4,14 @@ import VerseExplorer from "./components/VerseExplorer"
 import PipelineView from "./components/PipelineView"
 import FrequencyChart from "./components/FrequencyChart"
 import StudyCompanion from "./components/StudyCompanion"
-import { BookMarked, BarChart2, Sparkles } from "lucide-react"
+import ChatCompanion from "./components/ChatCompanion"
+import { BookMarked, BarChart2, Sparkles, MessageCircle } from "lucide-react"
 
 const TABS = [
   { id: "nlp",       label: "NLP Analysis",   icon: BookMarked },
   { id: "frequency", label: "Word Frequency",  icon: BarChart2 },
   { id: "study",     label: "Study Companion", icon: Sparkles },
+  { id: "chat",      label: "Chat",            icon: MessageCircle },
 ]
 
 export default function App() {
@@ -65,7 +67,11 @@ export default function App() {
         </div>
 
         {/* Tab panels */}
-        <div className="tab-panel" id={`panel-${activeTab}`} role="tabpanel">
+        <div
+          className={`tab-panel${activeTab === "chat" ? " tab-panel-chat" : ""}`}
+          id={`panel-${activeTab}`}
+          role="tabpanel"
+        >
           {activeTab === "nlp" && (
             <PipelineView verseNumber={selectedVerse} />
           )}
@@ -74,6 +80,9 @@ export default function App() {
           )}
           {activeTab === "study" && (
             <StudyCompanion verseNumber={selectedVerse} />
+          )}
+          {activeTab === "chat" && (
+            <ChatCompanion verseNumber={selectedVerse} />
           )}
         </div>
       </main>

@@ -68,6 +68,57 @@ def get_frequency(verse: Optional[int] = None):
     return pipeline.get_frequency(verse_number=verse)
 
 
+# ── Week 2: N-grams ──────────────────────────────────────────────────────────
+
+@app.get("/ngrams")
+def get_ngrams(verse: Optional[int] = None, top_n: int = 10):
+    """
+    Returns the most frequent bigrams and trigrams.
+    - No params: patterns across the whole book (reveals Jude's recurring themes)
+    - ?verse=N: patterns within a single verse
+    """
+    return pipeline.get_ngrams(verse_number=verse, top_n=top_n)
+
+
+# ── Week 4: Dependency parsing ────────────────────────────────────────────────
+
+@app.get("/parse/{n}")
+def parse_verse(n: int):
+    """
+    Returns the grammatical structure of a verse:
+    subject, main verb, object, and a full token-level dependency tree.
+    """
+    result = pipeline.parse_verse(n)
+    if not result:
+        raise HTTPException(status_code=404, detail="Verse not found")
+    return result
+
+
+# ── Week 4: Semantic similarity ───────────────────────────────────────────────
+
+@app.get("/related/{n}")
+def find_related(n: int, top_n: int = 3):
+    """
+    Finds the most semantically similar verses to verse N.
+    This is the automatic cross-reference finder — no manual concordance needed.
+    """
+    result = pipeline.find_related(verse_number=n, top_n=top_n)
+    if result is None:
+        raise HTTPException(status_code=404, detail="Verse not found")
+    return result
+
+
+# ── Week 5: Book-wide themes ──────────────────────────────────────────────────
+
+@app.get("/themes")
+def get_themes(top_n: int = 8):
+    """
+    Returns the most recurring phrases across the entire book of Jude.
+    These are the dominant themes Jude returns to again and again.
+    """
+    return pipeline.get_themes(top_n=top_n)
+
+
 # ── AI study route ────────────────────────────────────────────────────────────
 
 class StudyRequest(BaseModel):
