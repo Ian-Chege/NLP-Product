@@ -1,6 +1,6 @@
 # BIT4133: Natural Language Processing with Deep Learning
 
-**Progress Doc:** [Notion](https://app.notion.com/p/firebasedocs/NLP-Progress-Doc-BIT4133-Natural-Language-Processing-with-Deep-Learning-368031679001802fa604e9774853ebb5?source=copy_link)
+VIEW THE LOGBOOK DOCUMENT HERE: https://github.com/Ian-Chege/NLP-Product/blob/main/LOGBOOK.pdf
 
 ---
 
