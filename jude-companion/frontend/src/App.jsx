@@ -5,10 +5,12 @@ import PipelineView from "./components/PipelineView"
 import FrequencyChart from "./components/FrequencyChart"
 import StudyCompanion from "./components/StudyCompanion"
 import ChatCompanion from "./components/ChatCompanion"
-import { BookMarked, BarChart2, Sparkles, MessageCircle } from "lucide-react"
+import SemanticSearch from "./components/SemanticSearch"
+import { BookMarked, BarChart2, Sparkles, MessageCircle, Search } from "lucide-react"
 
 const TABS = [
   { id: "nlp",       label: "NLP Analysis",   icon: BookMarked },
+  { id: "search",    label: "Semantic Search", icon: Search },
   { id: "frequency", label: "Word Frequency",  icon: BarChart2 },
   { id: "study",     label: "Study Companion", icon: Sparkles },
   { id: "chat",      label: "Chat",            icon: MessageCircle },
@@ -74,6 +76,9 @@ export default function App() {
         >
           {activeTab === "nlp" && (
             <PipelineView verseNumber={selectedVerse} />
+          )}
+          {activeTab === "search" && (
+            <SemanticSearch onSelectVerse={setSelectedVerse} />
           )}
           {activeTab === "frequency" && (
             <FrequencyChart verseNumber={selectedVerse} />

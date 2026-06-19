@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import numpy as np
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk import pos_tag
@@ -37,6 +38,8 @@ class JudePipeline:
     def __init__(self):
         self.stop_words = set(stopwords.words("english")) | BIBLICAL_STOPWORDS
         self.verses = JUDE_CORPUS
+        # Cache of verse document-embeddings, built lazily on first search.
+        self._verse_embeddings: list[np.ndarray] | None = None
 
     def tokenize(self, text: str) -> list[str]:
         return word_tokenize(text)
@@ -212,3 +215,67 @@ class JudePipeline:
         These represent the dominant themes Jude keeps returning to.
         """
         return self.get_ngrams(verse_number=None, top_n=top_n)
+
+    # ── Week 6: Embedding-powered semantic search ─────────────────────────────
+
+    def _doc_embedding(self, text: str) -> np.ndarray:
+        """
+        Represent a whole passage as ONE dense vector — the document embedding.
+
+        This is the core Week 6 concept: we average the word embeddings of every
+        meaningful word (skipping stopwords and punctuation) into a single vector.
+        Passages about similar ideas end up with similar vectors, even when they
+        share no words at all.
+        """
+        doc = _get_spacy()(text)
+        vectors = [
+            token.vector
+            for token in doc
+            if token.is_alpha
+            and token.vector_norm
+            and token.lower_ not in self.stop_words
+        ]
+        if not vectors:
+            return doc.vector  # fall back to the whole-doc vector
+        return np.mean(vectors, axis=0)
+
+    @staticmethod
+    def _cosine(a: np.ndarray, b: np.ndarray) -> float:
+        """Cosine similarity: 1.0 = identical meaning, 0.0 = unrelated."""
+        denom = float(np.linalg.norm(a) * np.linalg.norm(b))
+        return float(np.dot(a, b) / denom) if denom else 0.0
+
+    def _build_verse_embeddings(self) -> list[np.ndarray]:
+        """Embed every verse once and cache the result for fast searching."""
+        if self._verse_embeddings is None:
+            self._verse_embeddings = [
+                self._doc_embedding(v["text"]) for v in self.verses
+            ]
+        return self._verse_embeddings
+
+    def semantic_search(self, query: str, top_n: int = 5) -> dict:
+        """
+        Rank every verse in Jude by how close its meaning is to a free-text query.
+
+        Unlike keyword search, this matches by MEANING: a search for "false
+        teachers" surfaces verses about ungodly men creeping in, even though the
+        exact words never appear. This is the retrieval idea behind search
+        engines, powered entirely by word embeddings.
+        """
+        query = (query or "").strip()
+        if not query:
+            return {"query": query, "results": []}
+
+        query_vec = self._doc_embedding(query)
+        verse_vecs = self._build_verse_embeddings()
+
+        scored = [
+            {
+                "verse_number": verse["verse_number"],
+                "text": verse["text"],
+                "score": round(self._cosine(query_vec, vec), 4),
+            }
+            for verse, vec in zip(self.verses, verse_vecs)
+        ]
+        scored.sort(key=lambda x: x["score"], reverse=True)
+        return {"query": query, "results": scored[:top_n]}

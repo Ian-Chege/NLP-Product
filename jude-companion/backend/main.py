@@ -119,6 +119,21 @@ def get_themes(top_n: int = 8):
     return pipeline.get_themes(top_n=top_n)
 
 
+# ── Week 6: Embedding-powered semantic search ─────────────────────────────────
+
+@app.get("/search")
+def semantic_search(q: str, top_n: int = 5):
+    """
+    Search the book of Jude by MEANING, not keywords.
+
+    Each verse is represented as a document embedding (the average of its word
+    vectors); the query is embedded the same way and verses are ranked by
+    cosine similarity. Finds relevant verses even when they share no words
+    with the query.
+    """
+    return pipeline.semantic_search(query=q, top_n=top_n)
+
+
 # ── AI study route ────────────────────────────────────────────────────────────
 
 class StudyRequest(BaseModel):
