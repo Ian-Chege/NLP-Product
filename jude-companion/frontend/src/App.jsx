@@ -6,14 +6,18 @@ import FrequencyChart from "./components/FrequencyChart"
 import StudyCompanion from "./components/StudyCompanion"
 import ChatCompanion from "./components/ChatCompanion"
 import SemanticSearch from "./components/SemanticSearch"
-import { BookMarked, BarChart2, Sparkles, MessageCircle, Search } from "lucide-react"
+import NeuralPredictor from "./components/NeuralPredictor"
+import SentimentAnalysis from "./components/SentimentAnalysis"
+import { BookMarked, BarChart2, Sparkles, MessageCircle, Search, BrainCircuit, HeartPulse } from "lucide-react"
 
 const TABS = [
-  { id: "nlp",       label: "NLP Analysis",   icon: BookMarked },
-  { id: "search",    label: "Semantic Search", icon: Search },
-  { id: "frequency", label: "Word Frequency",  icon: BarChart2 },
-  { id: "study",     label: "Study Companion", icon: Sparkles },
-  { id: "chat",      label: "Chat",            icon: MessageCircle },
+  { id: "nlp",       label: "NLP Analysis",    icon: BookMarked },
+  { id: "search",    label: "Semantic Search",  icon: Search },
+  { id: "frequency", label: "Word Frequency",   icon: BarChart2 },
+  { id: "neural",    label: "Neural Predictor", icon: BrainCircuit },
+  { id: "sentiment", label: "Sentiment",        icon: HeartPulse },
+  { id: "study",     label: "Study Companion",  icon: Sparkles },
+  { id: "chat",      label: "Chat",             icon: MessageCircle },
 ]
 
 export default function App() {
@@ -82,6 +86,12 @@ export default function App() {
           )}
           {activeTab === "frequency" && (
             <FrequencyChart verseNumber={selectedVerse} />
+          )}
+          {activeTab === "neural" && (
+            <NeuralPredictor />
+          )}
+          {activeTab === "sentiment" && (
+            <SentimentAnalysis verseNumber={selectedVerse} />
           )}
           {activeTab === "study" && (
             <StudyCompanion verseNumber={selectedVerse} />

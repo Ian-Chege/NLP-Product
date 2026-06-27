@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 import os
+import threading
+from contextlib import asynccontextmanager
 from typing import Optional
 
 import nltk
@@ -25,8 +27,18 @@ for resource in (
 
 from jude_corpus import JUDE_CORPUS  # noqa: E402 — must follow nltk.download
 from nlp_pipeline import JudePipeline  # noqa: E402
+import neural_lm  # noqa: E402
+import sentiment as sentiment_module  # noqa: E402
 
-app = FastAPI(title="Jude Companion API", version="1.0.0")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    threading.Thread(target=neural_lm._build, daemon=True).start()
+    threading.Thread(target=sentiment_module._get_pipe, daemon=True).start()
+    yield
+
+
+app = FastAPI(title="Jude Companion API", version="1.0.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -132,6 +144,64 @@ def semantic_search(q: str, top_n: int = 5):
     with the query.
     """
     return pipeline.semantic_search(query=q, top_n=top_n)
+
+
+# ── Week 7: Neural Language Model ────────────────────────────────────────────
+
+@app.get("/model-status")
+def model_status():
+    """Check whether the neural language model has finished training."""
+    return {"ready": neural_lm.is_ready()}
+
+
+@app.get("/predict")
+def predict_next_word(text: str, top_n: int = 5):
+    """
+    Predict the most likely next word(s) given a sentence fragment.
+    Returns words ranked by confidence (softmax probability).
+    """
+    if not text.strip():
+        raise HTTPException(status_code=400, detail="text must not be empty")
+    return {"input": text, "predictions": neural_lm.predict_next(text, top_n=top_n)}
+
+
+class TokenizeRequest(BaseModel):
+    text: str
+
+
+@app.post("/tokenize-text")
+def tokenize_text(request: TokenizeRequest):
+    """
+    Tokenize arbitrary text using the model's fitted Tokenizer.
+    Returns word → index mapping and the integer sequence.
+    Demonstrates Keras Tokenizer (Week 7 Class Demonstrations 3 & 4).
+    """
+    if not request.text.strip():
+        raise HTTPException(status_code=400, detail="text must not be empty")
+    return neural_lm.tokenize_text(request.text)
+
+
+# ── Week 8: Transformer sentiment analysis ────────────────────────────────────
+
+@app.get("/sentiment-status")
+def sentiment_status():
+    return {"ready": sentiment_module.is_ready()}
+
+
+@app.get("/sentiment/{n}")
+def get_verse_sentiment(n: int):
+    """Sentiment analysis for a single verse using DistilBERT."""
+    verse = next((v for v in JUDE_CORPUS if v["verse_number"] == n), None)
+    if not verse:
+        raise HTTPException(status_code=404, detail="Verse not found")
+    result = sentiment_module.analyze_verse(verse["text"])
+    return {"verse_number": n, "text": verse["text"], **result}
+
+
+@app.get("/sentiment")
+def get_book_sentiment():
+    """Sentiment analysis across all 25 verses — returns per-verse results + summary."""
+    return sentiment_module.analyze_book(JUDE_CORPUS)
 
 
 # ── AI study route ────────────────────────────────────────────────────────────
