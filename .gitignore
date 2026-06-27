@@ -5,3 +5,21 @@ node_modules/
 dist/
 build/
 jude-companion/backend/.env
+
+# Python virtual environment
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# HuggingFace model cache
+.cache/
+
+# TensorFlow / Keras saved models
+*.h5
+*.keras
+saved_model/
+
+# macOS
+.DS_Store
